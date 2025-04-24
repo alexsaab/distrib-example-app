@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Welcome to Symfony!</title>
+        <style>
+            body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+            h1 { line-height: 1.2; margin: 0 0 .5em; }
+            h1 { font-size: 36px; }
+            .container { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; padding: 2em; }
+            .symfony-logo { text-align: center; margin-bottom: 2em; }
+            .symfony-logo svg { width: 128px; height: 128px; }
+            #status { margin-bottom: 2em; }
+            code { background: #F5F5F5; padding: 2px 6px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="symfony-logo">
+                <svg viewBox="0 0 128 128">
+                    <path fill="#000000" d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64 64-28.7 64-64S99.3 0 64 0zm38.4 101.5c-1.2 0-2-.4-2.7-1.2-3.5-4.1-4.5-8.3-7.2-12.4-2.7-4.1-9.2-13.3-27.9-13.3H44.9v19.4c0 2.4 1.2 3.3 3.3 3.7l13.7 1.6v3.3H19.3v-3.3l9.8-1.6c2-.4 3.3-1.2 3.3-3.7V25.2c0-2.4-1.2-3.3-3.3-3.7l-9.8-1.6v-3.3h45.5c20.3 0 32.7 9.8 32.7 25.6 0 10.6-6.5 19.4-16.7 23.1v.4c12.2 2.9 17.9 11.8 23.1 20.3 4.1 6.5 6.5 8.9 10.2 9.4v3.3h-11.8v-.2zm-19.9-61c0-12.2-7.6-18.7-18.3-18.7h-19v38.7h16.7c13.3 0 20.7-7.2 20.7-20h-.1z"/>
+                </svg>
+            </div>
+            <div id="welcome">
+                <h1>Welcome to Symfony!</h1>
+            </div>
+            <div id="status">
+                <p>
+                    Your application is now ready. You can start working on it at:<br>
+                    <code>{{ constant('Symfony\\Component\\HttpKernel\\Kernel::PROJECT_DIR') }}</code>
+                </p>
+            </div>
+        </div>
+    </body>
+</html> 

@@ -10,29 +10,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/admin')]
+#[IsGranted('ROLE_ADMIN')]
 class DashboardController extends AbstractDashboardController
 {
-    private $adminUrlGenerator;
-
-    public function __construct(AdminUrlGenerator $adminUrlGenerator)
-    {
-        $this->adminUrlGenerator = $adminUrlGenerator;
-    }
-
-    #[Route('/', name: 'admin_dashboard')]
+    #[Route('/admin', name: 'admin_dashboard')]
     public function index(): Response
     {
-        // Option 1: Return to a blank dashboard
         return $this->render('admin/dashboard.html.twig');
-
-        // Option 2: Redirect to user list (uncomment if you prefer this)
-        // return $this->redirect(
-        //     $this->adminUrlGenerator
-        //         ->setController(UserCrudController::class)
-        //         ->generateUrl()
-        // );
     }
 
     public function configureDashboard(): Dashboard

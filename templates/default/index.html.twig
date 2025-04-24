@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+        h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+        h1 { font-size: 36px; }
+        h2 { font-size: 21px; margin-bottom: 1em; }
+        p { margin: 0 0 1em 0; }
+        a { color: #0000F0; }
+        a:hover { text-decoration: none; }
+        code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
+        #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
+        #container { padding: 2em; }
+        #welcome, #status { margin-bottom: 2em; }
+        #welcome h1 span { display: block; font-size: 75%; }
+        #comment { font-size: 14px; text-align: center; color: #777777; background: #FEFFEA; padding: 10px; }
+        .symfony-logo { text-align: center; margin-bottom: 2em; }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <div class="symfony-logo">
+                    <svg viewBox="0 0 128 128" width="128" height="128">
+                        <path fill="#000000" d="M64 0c35.346 0 64 28.654 64 64s-28.654 64-64 64S0 99.346 0 64 28.654 0 64 0zm22.464 20.464c-2.121-2.121-5.57-2.121-7.69 0L64 35.234 49.226 20.464c-2.121-2.121-5.57-2.121-7.69 0-2.122 2.121-2.122 5.57 0 7.69L56.309 43 41.535 57.774c-2.122 2.121-2.122 5.57 0 7.69 2.12 2.122 5.57 2.122 7.69 0L64 50.69l14.774 14.775c2.12 2.121 5.57 2.121 7.69 0 2.122-2.121 2.122-5.57 0-7.69L71.69 43l14.774-14.774c2.122-2.121 2.122-5.57 0-7.69z"/>
+                    </svg>
+                </div>
+                <h1>Welcome to Symfony!</h1>
+            </div>
+
+            <div id="status">
+                <p>
+                    Your application is now ready. You can start working on it at:<br>
+                    <code>{{ '/var/www/html' }}</code>
+                </p>
+            </div>
+
+            <div id="next">
+                <h2>What's next?</h2>
+                <p>
+                    <ul>
+                        <li>Visit the <a href="http://localhost/admin">Admin Panel</a></li>
+                        <li>Read Symfony documentation at <a href="https://symfony.com/doc">https://symfony.com/doc</a></li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

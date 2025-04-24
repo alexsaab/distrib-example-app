@@ -1,18 +1,28 @@
+# Homepage route must be first
+homepage:
+    path: /
+    controller: App\Controller\HomepageController::index
+    methods: [GET]
+
+# Admin routes
+admin:
+    resource: ../src/Controller/Admin/
+    type: attribute
+    prefix: /admin
+
+# Main controllers
 controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
 
-admin_dashboard:
-    resource: App\Controller\Admin\DashboardController
-    type: attribute
-    prefix: /admin
-
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
+# API Platform routes
 api_platform:
     resource: .
     type: api_platform
     prefix: /api
+
+# FOSUser routes
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

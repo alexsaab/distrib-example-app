@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: SettingRepository::class)]
 #[ORM\Table(name: 'settings')]
+#[ORM\Index(columns: ['code'])]
 #[ApiResource]
 class Setting
 {
@@ -17,7 +18,6 @@ class Setting
     private ?int $id = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: false)]
-    #[ORM\Index]
     private ?string $code = null;
 
     #[ORM\Column(type: 'text', nullable: true)]

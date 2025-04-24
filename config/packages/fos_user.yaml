@@ -2,17 +2,17 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: App\Entity\User
+    from_email:
+        address: 'noreply@example.com'
+        sender_name: 'Admin System'
     service:
         mailer: fos_user.mailer.noop
-    from_email:
-        address: "noreply@example.com"
-        sender_name: "Admin"
     registration:
         confirmation:
-            enabled: false  # Disable email confirmation
+            enabled: false
     resetting:
         email:
             from_email:
-                address: "noreply@example.com"
-                sender_name: "Admin"
-            # enabled: false  # Disable password resetting 
+                address: 'noreply@example.com'
+                sender_name: 'Admin System'
+            template: '@FOSUser/Resetting/email.txt.twig' 
