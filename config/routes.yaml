@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /api
