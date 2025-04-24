@@ -1,0 +1,10 @@
+.vscode
+.env
+.env.local
+.env.dev
+.env.prod
+.env.test
+.env.test.local
+.env.test.local
+.idea
+.DS_Store
