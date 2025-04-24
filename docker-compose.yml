@@ -9,7 +9,7 @@ services:
       - postgres
     environment:
       - APP_ENV=dev
-      - DATABASE_URL=postgresql://symfony:password@postgres:5432/symfony?serverVersion=15&charset=utf8
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?serverVersion=15&charset=utf8
 
   nginx:
     image: nginx:alpine

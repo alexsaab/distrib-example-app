@@ -20,7 +20,7 @@ class UserCrudController extends AbstractCrudController
         return [
             TextField::new('username'),
             EmailField::new('email'),
-            TextField::new('password')->hideOnIndex(),
+            TextField::new('password')->onlyWhenCreating(),
             BooleanField::new('enabled'),
         ];
     }

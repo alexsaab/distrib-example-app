@@ -25,7 +25,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # Explicitly define the mailer service
-    fos_user.mailer.default:
+    fos_user.mailer.noop:
         class: FOS\UserBundle\Mailer\NoopMailer
 
     # Alias the default mailer as twig_swift to satisfy the dependency
