@@ -26,3 +26,9 @@ api_platform:
 # FOSUser routes
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+# API Sales Data routes
+api_salesdata:
+    resource: '../src/Controller/Api/'
+    type: attribute
+    prefix: /api/salesdata

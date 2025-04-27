@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/core": "^4.1",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
         "easycorp/easyadmin-bundle": "^4.24",
         "friendsofsymfony/user-bundle": "*",
         "symfony/console": "7.2.*",
@@ -69,5 +70,9 @@
             "allow-contrib": false,
             "require": "7.2.*"
         }
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "symfony/maker-bundle": "^1.62"
     }
 }
