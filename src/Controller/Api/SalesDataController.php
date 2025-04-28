@@ -5,27 +5,27 @@ namespace App\Controller\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\SaleRepository;
+use App\Repository\ReturnDataRepository;
+use App\Repository\StockRepository;
 
 class SalesDataController extends AbstractController
 {
-    #[Route('/api/salesdata/sales', name: 'api_salesdata_sales', methods: ['GET'])]
-    public function sales(): JsonResponse
+    #[Route('/sales', name: 'api_salesdata_sales', methods: ['GET'])]
+    public function sales(SaleRepository $saleRepository): JsonResponse
     {
-        $data = file_get_contents($this->getParameter('kernel.project_dir') . '/templates/dataexamples/sales_mocking.json');
-        return $this->json(json_decode($data, true));
+        return $this->json($saleRepository->findAllFormatted(), 200);
     }
 
-    #[Route('/api/salesdata/returns', name: 'api_salesdata_returns', methods: ['GET'])]
-    public function returns(): JsonResponse
+    #[Route('/returns', name: 'api_salesdata_returns', methods: ['GET'])]
+    public function returns(ReturnDataRepository $returnDataRepository): JsonResponse
     {
-        $data = file_get_contents($this->getParameter('kernel.project_dir') . '/templates/dataexamples/returns_mocking.json');
-        return $this->json(json_decode($data, true));
+        return $this->json($returnDataRepository->findAllFormatted(), 200);
     }
 
-    #[Route('/api/salesdata/stocks', name: 'api_salesdata_stocks', methods: ['GET'])]
-    public function stocks(): JsonResponse
+    #[Route('/stocks', name: 'api_salesdata_stocks', methods: ['GET'])]
+    public function stocks(StockRepository $stockRepository): JsonResponse
     {
-        $data = file_get_contents($this->getParameter('kernel.project_dir') . '/templates/dataexamples/stocks_mocking.json');
-        return $this->json(json_decode($data, true));
+        return $this->json($stockRepository->findAllFormatted(), 200);
     }
 }

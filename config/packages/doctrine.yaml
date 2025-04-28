@@ -3,6 +3,8 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
         types:
             json: Doctrine\DBAL\Types\JsonType
+            datetime: Doctrine\DBAL\Types\DateTimeType
+            date: Doctrine\DBAL\Types\DateType
         mapping_types:
             json: json
             array: json

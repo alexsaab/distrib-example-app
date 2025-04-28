@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\Sale;
+use App\Entity\ReturnData;
+use App\Entity\Stock;
 
 #[IsGranted('ROLE_ADMIN')]
 class DashboardController extends AbstractDashboardController
@@ -31,6 +34,9 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Sales', 'fa fa-shopping-cart', Sale::class);
+        yield MenuItem::linkToCrud('Return Data', 'fa fa-arrow-left', ReturnData::class);
+        yield MenuItem::linkToCrud('Stock', 'fa fa-box', Stock::class);
         yield MenuItem::linkToCrud('Settings', 'fa fa-cog', Setting::class);
     }
 } 
