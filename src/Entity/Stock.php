@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'stock')]
+#[ORM\Table(name: 'stocks')]
 #[ORM\Index(fields: ['brand'])]
 #[ORM\Index(fields: ['sku'])]   
 #[ORM\Index(fields: ['stockDate'])]  

@@ -25,6 +25,12 @@ class SettingsManager
         return $setting ? $setting->getValue() : $default;
     }
 
+    public function getInt(string $code, int $default = 0): int
+    {
+        $value = $this->get($code);
+        return $value !== null ? (int)$value : $default;
+    }
+
     public function set(string $code, ?string $value, ?string $comment = null): void
     {
         $setting = $this->settingRepository->findByCode($code);

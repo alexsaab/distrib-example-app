@@ -55,7 +55,7 @@ class ImportMockDataCommand extends Command
             $entity->setTaxId($row[0]);
             $entity->setBrand($row[1]);
             $entity->setSku($row[2]);
-            $entity->setDate(new \DateTime($row[3]));
+            $entity->setSalesDate(new \DateTime($row[3]));
             $entity->setQuantity((int)$row[4]);
             $this->em->persist($entity);
         }
