@@ -2,37 +2,37 @@ security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        FOS\UserBundle\Model\UserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
+        users_in_memory:
+            memory:
+                users:
+                    admin: { password: '$2y$13$94hLmZEersAPP5S0gz0Iuu2zRTZW0x8uxO4sk.wuZ2fZACgtjEXD2', roles: ['ROLE_ADMIN'] }
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER]
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
             
-        # Admin firewall - only for /admin paths
-        admin:
-            pattern: ^/admin
-            provider: fos_userbundle
+        # Main firewall - for everything else
+        main:
+            lazy: true
+            provider: users_in_memory
             form_login:
                 login_path: admin_login
                 check_path: admin_login_check
-                default_target_path: admin_dashboard
-                always_use_default_target_path: true
+                default_target_path: admin
+                username_parameter: _username
+                password_parameter: _password
+                csrf_token_id: authenticate
+                csrf_parameter: _csrf_token
+                enable_csrf: true
             logout:
                 path: admin_logout
                 target: admin_login
-            remember_me:
-                secret: '%kernel.secret%'
-            lazy: true
-
-        # Main firewall - for everything else
-        main:
-            pattern: ^/
-            security: false  # Disable security for main area
-            lazy: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -42,6 +42,7 @@ security:
         # Admin routes require authentication
         - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
@@ -55,7 +56,3 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]

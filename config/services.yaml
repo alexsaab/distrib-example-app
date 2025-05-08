@@ -21,6 +21,11 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # makes test fixtures available as services
+    App\Tests\DataFixtures\:
+        resource: '../tests/DataFixtures/'
+        tags: ['doctrine.fixture.orm']
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
