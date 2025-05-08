@@ -4,10 +4,14 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        api_provider:
             memory:
                 users:
-                    admin: { password: '$2y$13$94hLmZEersAPP5S0gz0Iuu2zRTZW0x8uxO4sk.wuZ2fZACgtjEXD2', roles: ['ROLE_ADMIN'] }
+                    api_user: { roles: ['ROLE_API'] }
 
     role_hierarchy:
         ROLE_ADMIN: [ROLE_USER]
@@ -17,10 +21,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
             
-        # Main firewall - for everything else
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: api_provider
+            custom_authenticator: App\Security\ApiAuthenticator
+            entry_point: App\Security\ApiAuthenticator
+            
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
             form_login:
                 login_path: admin_login
                 check_path: admin_login_check
@@ -40,9 +50,9 @@ security:
         # Make homepage completely public
         - { path: ^/$, roles: PUBLIC_ACCESS }
         # Admin routes require authentication
-        - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/api, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: ROLE_API }
 
 when@test:
     security:

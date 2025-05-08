@@ -13,18 +13,24 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Settings
-        $apiSecret = new Setting();
-        $apiSecret->setCode('api_secret');
-        $apiSecret->setValue('myApiSecret01');
-        $apiSecret->setComment('Секретная фраза для API');
-        $manager->persist($apiSecret);
+        // Создаем настройки только если они не существуют
+        $apiSecret = $manager->getRepository(Setting::class)->findOneBy(['code' => 'api_secret']);
+        if (!$apiSecret) {
+            $apiSecret = new Setting();
+            $apiSecret->setCode('api_secret');
+            $apiSecret->setValue('myApiSecret01');
+            $apiSecret->setComment('Секретная фраза для API');
+            $manager->persist($apiSecret);
+        }
 
-        $apiPerPage = new Setting();
-        $apiPerPage->setCode('api_per_page');
-        $apiPerPage->setValue('10');
-        $apiPerPage->setComment('Количество данных на странице API');
-        $manager->persist($apiPerPage);
+        $apiPerPage = $manager->getRepository(Setting::class)->findOneBy(['code' => 'api_per_page']);
+        if (!$apiPerPage) {
+            $apiPerPage = new Setting();
+            $apiPerPage->setCode('api_per_page');
+            $apiPerPage->setValue('10');
+            $apiPerPage->setComment('Количество данных на странице API');
+            $manager->persist($apiPerPage);
+        }
 
         $manager->flush();
 
@@ -34,10 +40,10 @@ class AppFixtures extends Fixture
         $stocks = json_decode(file_get_contents($projectDir . '/stocks_mocking.json'), true);
         foreach ($stocks as $stock) {
             StockFactory::createOne([
-                'brand' => $stock['brand'] ?? 'Miles',
-                'sku' => $stock['sku'] ?? 'Unknown',
-                'stockDate' => new \DateTime(),
-                'quantity' => $stock['quantity'] ?? 0,
+                'brand' => $stock[0] ?? 'Miles',
+                'sku' => $stock[1] ?? 'Unknown',
+                'stockDate' => isset($stock[2]) ? \DateTime::createFromFormat('Y-m-d', $stock[2]) : new \DateTime(),
+                'quantity' => $stock[3] ?? 0,
             ]);
         }
 
@@ -45,24 +51,24 @@ class AppFixtures extends Fixture
         $sales = json_decode(file_get_contents($projectDir . '/sales_mocking.json'), true);
         foreach ($sales as $sale) {
             SaleFactory::createOne([
-                'taxId' => $sale['taxId'] ?? '123456789',
-                'salesDate' => new \DateTime(),
-                'brand' => $sale['brand'] ?? 'Miles',
-                'sku' => $sale['sku'] ?? 'Unknown',
-                'quantity' => $sale['quantity'] ?? 0,
+                'taxId' => $sale[0] ?? '123456789',
+                'salesDate' => isset($sale[3]) ? \DateTime::createFromFormat('Y-m-d', $sale[3]) : new \DateTime(),
+                'brand' => $sale[1] ?? 'Miles',
+                'sku' => $sale[2] ?? 'Unknown',
+                'quantity' => $sale[4] ?? 0,
             ]);
         }
 
         // Returns
         $returns = json_decode(file_get_contents($projectDir . '/returns_mocking.json'), true);
-        foreach ($returns as $return) {
+        foreach ($returns as $return) {            
             ReturnDataFactory::createOne([
-                'taxId' => $return['taxId'] ?? '123456789',
-                'brand' => $return['brand'] ?? 'Miles',
-                'sku' => $return['sku'] ?? 'Unknown',
-                'salesDate' => new \DateTime(),
-                'returnDate' => new \DateTime(),
-                'quantity' => $return['quantity'] ?? 0,
+                'taxId' => $return[0] ?? '123456789',
+                'brand' => $return[1] ?? 'Miles',
+                'sku' => $return[2] ?? 'Unknown',
+                'salesDate' => isset($return[3]) ? \DateTime::createFromFormat('Y-m-d', $return[3]) : new \DateTime(),
+                'returnDate' => isset($return[4]) ? \DateTime::createFromFormat('Y-m-d', $return[4]) : new \DateTime(),
+                'quantity' => $return[5] ?? 0,
             ]);
         }
     }

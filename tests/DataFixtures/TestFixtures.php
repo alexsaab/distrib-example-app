@@ -13,23 +13,29 @@ class TestFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Settings
-        $apiSecret = new Setting();
-        $apiSecret->setCode('api_secret');
-        $apiSecret->setValue('myApiSecret01');
-        $apiSecret->setComment('Секретная фраза для API');
-        $manager->persist($apiSecret);
+        // Создаем настройки только если они не существуют
+        $apiSecret = $manager->getRepository(Setting::class)->findOneBy(['code' => 'api_secret']);
+        if (!$apiSecret) {
+            $apiSecret = new Setting();
+            $apiSecret->setCode('api_secret');
+            $apiSecret->setValue('myApiSecret01');
+            $apiSecret->setComment('Секретная фраза для API');
+            $manager->persist($apiSecret);
+        }
 
-        $apiPerPage = new Setting();
-        $apiPerPage->setCode('api_per_page');
-        $apiPerPage->setValue('10');
-        $apiPerPage->setComment('Количество данных на странице API');
-        $manager->persist($apiPerPage);
+        $apiPerPage = $manager->getRepository(Setting::class)->findOneBy(['code' => 'api_per_page']);
+        if (!$apiPerPage) {
+            $apiPerPage = new Setting();
+            $apiPerPage->setCode('api_per_page');
+            $apiPerPage->setValue('10');
+            $apiPerPage->setComment('Количество данных на странице API');
+            $manager->persist($apiPerPage);
+        }
 
-        // Create test sales
+        // Создаем тестовые данные для продаж
         for ($i = 1; $i <= 15; $i++) {
             $sale = new Sale();
-            $sale->setTaxId('1234567890' . $i);
+            $sale->setTaxId('1234567890');
             $sale->setBrand('Test Brand');
             $sale->setSku('TEST-SKU-' . $i);
             $sale->setSalesDate(new \DateTime());
@@ -37,19 +43,19 @@ class TestFixtures extends Fixture
             $manager->persist($sale);
         }
 
-        // Create test returns
+        // Создаем тестовые данные для возвратов
         for ($i = 1; $i <= 15; $i++) {
             $return = new ReturnData();
-            $return->setTaxId('1234567890' . $i);
+            $return->setTaxId('1234567890');
             $return->setBrand('Test Brand');
             $return->setSku('TEST-SKU-' . $i);
-            $return->setSalesDate(new \DateTime());
+            $return->setSalesDate(new \DateTime('-1 day')); // Дата продажи на день раньше возврата
             $return->setReturnDate(new \DateTime());
             $return->setQuantity($i * 5);
             $manager->persist($return);
         }
 
-        // Create test stocks
+        // Создаем тестовые данные для остатков
         for ($i = 1; $i <= 15; $i++) {
             $stock = new Stock();
             $stock->setBrand('Test Brand');

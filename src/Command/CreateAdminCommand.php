@@ -8,60 +8,46 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:create-admin',
     description: 'Creates a new admin user',
-    hidden: false
 )]
 class CreateAdminCommand extends Command
 {
-    private $em;
-    private $passwordHasher;
-
     public function __construct(
-        EntityManagerInterface $em,
-        UserPasswordHasherInterface $passwordHasher
+        private EntityManagerInterface $entityManager,
+        private UserPasswordHasherInterface $passwordHasher
     ) {
         parent::__construct();
-        $this->em = $em;
-        $this->passwordHasher = $passwordHasher;
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Creates a new admin user')
-            ->setHelp('This command allows you to create an admin user');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $helper = $this->getHelper('question');
+        $io = new SymfonyStyle($input, $output);
 
-        $emailQuestion = new Question('Please enter the email: ');
-        $passwordQuestion = new Question('Please enter the password: ');
-        $passwordQuestion->setHidden(true);
-        $passwordQuestion->setHiddenFallback(false);
-
-        $email = $helper->ask($input, $output, $emailQuestion);
-        $password = $helper->ask($input, $output, $passwordQuestion);
+        $email = $io->ask('Enter admin email', 'admin@example.com');
+        $username = $io->ask('Enter admin username', 'admin');
+        $password = $io->askHidden('Enter admin password');
 
         $user = new User();
         $user->setEmail($email);
-        $user->setUsername($email);
+        $user->setUsername($username);
         $user->setEnabled(true);
         $user->setRoles(['ROLE_ADMIN']);
-        
-        $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
+
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $user,
+            $password
+        );
         $user->setPassword($hashedPassword);
 
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
-        $output->writeln('Admin user successfully created!');
+        $io->success('Admin user has been created successfully!');
 
         return Command::SUCCESS;
     }
