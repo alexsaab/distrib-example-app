@@ -13,7 +13,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser() && $this->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('admin_dashboard');
+            return $this->redirectToRoute('admin');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -26,14 +26,16 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/admin/login/check', name: 'admin_login_check')]
-    public function check()
+    public function check(): never
     {
-        throw new \RuntimeException('You must configure the check path to be handled by the firewall.');
+        // This code should never be executed because the route is handled by the security system
+        throw new \LogicException('This code should never be reached!');
     }
 
     #[Route('/admin/logout', name: 'admin_logout')]
-    public function logout()
+    public function logout(): never
     {
-        throw new \RuntimeException('You must configure the logout path to be handled by the firewall.');
+        // This code should never be executed because the route is handled by the security system
+        throw new \LogicException('This code should never be reached!');
     }
 } 
